@@ -1,46 +1,46 @@
 pipeline {
-  
-  agent any
+    
+    agent any
 
-  environment {
-    registry = 'localhost:5000/jenkins/funplayjenkins'
-    dockerImage = ''
-  }
-
-  stages {
-        
-    stage('Checkout Source') {
-      steps {
-                git branch: 'main', url: 'https://github.com/BBRathnayaka/funjenkins.git'
-            }
+    environment {
+      registry = 'localhost:5000/jenkins/funplayjenkins-prod'
+      dockerImage = ''
     }
 
-    stage('Build image') {
-      steps {
-        script {
-          dockerImage = docker.build registry
-        }
-
+    stages {
+          
+      stage('Checkout Source') {
+        steps {
+                  git branch: 'prod', url: 'https://github.com/BBRathnayaka/funjenkins.git'
+              }
       }
-    }
 
-    stage('Push Image') {
-      steps {
-        script {
-          docker.withRegistry( "" ) {
-            dockerImage.push()
+      stage('Build image') {
+        steps {
+          script {
+            dockerImage = docker.build registry
           }
-        }
 
+        }
+      }
+
+      stage('Push Image') {
+        steps {
+          script {
+            docker.withRegistry( "" ) {
+              dockerImage.push()
+            }
+          }
+
+        }
+      }
+
+      stage('Deploy App') {
+        steps {
+          sh 'docker rm -f funplayjenkins-prod'
+          sh 'docker run --name funplayjenkins-prod -d -p 8899:80 localhost:5000/jenkins/funplayjenkins-prod'
+          sh 'echo "Devloped here: http://localhost:8899/ "'
+          }
       }
     }
-
-    stage('Deploy App') {
-      steps {
-        sh 'docker rm -f funplayjenkins'
-        sh 'docker run --name funplayjenkins -d -p 8899:80 localhost:5000/jenkins/funplayjenkins'
-        sh 'echo "Devloped here: http://localhost:8899/ "'
-        }
-    }
   }
-}
