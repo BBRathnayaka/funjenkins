@@ -37,7 +37,7 @@ pipeline {
 
       stage('Deploy App') {
         steps {
-          sh '''C=some-nginx
+          sh '''C=prod-site
           R=$(docker inspect --format="{{ .State.Running }}" $C 2> /dev/null)
 
           if [$? -eq 1 ]; then
@@ -48,9 +48,9 @@ pipeline {
 
             #run the container
             echo ""
-            docker run --name some-nginx -d -p 8889:80 budditha/jitlab-jenkins-docker
+            docker run --name prod-site -d -p 8899:80 localhost:5000/jenkins/funplayjenkins-prod
             echo ""
-              echo "Developed here: http://localhost:8889/ "
+              echo "Developed here: http://localhost:8899/ "
               '''
           }
       }
