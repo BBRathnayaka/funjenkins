@@ -37,9 +37,21 @@ pipeline {
 
       stage('Deploy App') {
         steps {
-          sh 'docker rm -f funplayjenkins-prod'
-          sh 'docker run --name funplayjenkins-prod -d -p 8888:80 localhost:5000/jenkins/funplayjenkins-prod'
-          sh 'echo "Devloped here: http://localhost:8888/ "'
+          sh '''C=some-nginx
+          R=$(docker inspect --format="{{ .State.Running }}" $C 2> /dev/null)
+
+          if [$? -eq 1 ]; then
+            echo "\'$C\' does not exixt."
+          else
+            docker rm -f $C
+          fi
+
+            #run the container
+            echo ""
+            docker run --name some-nginx -d -p 8889:80 budditha/jitlab-jenkins-docker
+            echo ""
+              echo "Developed here: http://localhost:8889/ "
+              '''
           }
       }
     }
