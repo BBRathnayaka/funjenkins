@@ -11,6 +11,7 @@ pipeline {
   stages {  
 
     stage ('Main Branch'){
+        agent any
       when{ branch 'main'}
       steps {
         script {
@@ -52,6 +53,7 @@ pipeline {
     }
 
     stage ('Production Branch'){
+        agent any
       when{ branch 'prod'}
       steps {
         script {
