@@ -3,9 +3,8 @@ pipeline {
   agent any
 
   stages {  
-    stage ('Main Stage')
+    stage ('Main Stage'){
       agent any
-      {
       steps {
         script {
           if (true) {
