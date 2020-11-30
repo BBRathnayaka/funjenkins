@@ -12,14 +12,15 @@ pipeline {
 
     stage('master-branch-stuff'){
     agent any
-    when{ branch 'main'}
-      steps {
-            stage('Checkout Source') {
-              steps {
-                git branch: 'main', url: 'https://github.com/BBRathnayaka/funjenkins.git'
-              }
-            } 
+    when{ branch 'prod'}
+          stage('Checkout Source') {
+            steps {
+              git branch: 'main', url: 'https://github.com/BBRathnayaka/funjenkins.git'
+            }
+          }
     
+      steps {
+        echo 'run this stage - ony if the branch = master branch'
       }
     }
 
