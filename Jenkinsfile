@@ -10,12 +10,17 @@ pipeline {
 
   stages {  
     stage ('Main Branch'){
-      when{ branch 'main'}
+      when{ branch 'prod'}
       steps {
         script {
             stage ('Stage 1') {
               sh 'echo Stage 1'
             }
+            stage('Checkout Source') {
+            steps {
+              git branch: 'prod', url: 'https://github.com/BBRathnayaka/funjenkins.git'
+            }
+          }
         }
       }
     }
