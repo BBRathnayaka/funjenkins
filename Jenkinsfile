@@ -16,11 +16,11 @@ pipeline {
       steps {
         script {
 
-          stage('Checkout Source') {
-            steps {
-                      git branch: 'prod', url: 'https://github.com/BBRathnayaka/funjenkins.git'
-                  }
-          }
+          // stage('Checkout Source') {
+          //   steps {
+          //             git branch: 'prod', url: 'https://github.com/BBRathnayaka/funjenkins.git'
+          //         }
+          // }
 
           stage('Build image') {
             steps {
