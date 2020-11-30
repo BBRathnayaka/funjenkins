@@ -18,7 +18,7 @@ pipeline {
             }
             stage('Checkout Source') {
             steps {
-              git branch: 'prod', url: 'https://github.com/BBRathnayaka/funjenkins.git'
+              git 'https://github.com/BBRathnayaka/funjenkins.git'
             }
           }
         }
