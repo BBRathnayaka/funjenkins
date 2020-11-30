@@ -7,18 +7,17 @@ pipeline {
     dockerImage = ''
   }
 
-  stages {
+  stages {when{ branch 'main'}
         
-
-    stage('master-branch-stuff'){
-    agent any
-    when{ branch 'prod'}
-          stage('Checkout Source') {
-            steps {
-              git branch: 'main', url: 'https://github.com/BBRathnayaka/funjenkins.git'
+    stage('Checkout Source') {
+      steps {
+                git branch: 'main', url: 'https://github.com/BBRathnayaka/funjenkins.git'
             }
-          }
-    
+    }
+
+    stage('main-branch-stuff'){
+    agent any
+    when{ branch 'main'}
       steps {
         echo 'run this stage - ony if the branch = master branch'
       }
@@ -53,10 +52,4 @@ pipeline {
         }
     }
   }
-
-      post { 
-        always { 
-            echo 'I will always say Hello again!'
-        }
-    }
 }
