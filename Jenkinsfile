@@ -12,7 +12,7 @@ pipeline {
 
     stage('master-branch-stuff'){
     agent any
-    when{ branch 'prod'}
+    when{ branch 'main'}
       steps {
             stage('Checkout Source') {
               steps {
