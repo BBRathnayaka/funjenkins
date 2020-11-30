@@ -17,7 +17,7 @@ pipeline {
             stage('Checkout Source') {
               git branch: 'prod', url: 'https://github.com/BBRathnayaka/funjenkins.git'
             }
-            
+
             stage('Build image') {
               script {
                 dockerImage = docker.build registry2
@@ -30,6 +30,12 @@ pipeline {
                   dockerImage.push()
               }
             }
+          }
+
+            stage('Deploy App') {
+              sh 'docker rm -f funplayjenkins-prod'
+              sh 'docker run --name funplayjenkins-prod -d -p 8899:80 localhost:5000/jenkins/funplayjenkins-prod'
+              sh 'echo "Devloped here: http://localhost:8899/ "'
           }
 
         }
