@@ -7,6 +7,14 @@ pipeline {
     dockerImage = ''
   }
 
+  if (env.BRANCH_NAME == "main") {                                          
+    sh 'echo "main branch"'
+  } 
+  else {                                   
+    sh 'echo "other branch"'
+  }                                                                       
+
+
   stages {
         
     stage('Checkout Source') {
