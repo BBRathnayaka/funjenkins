@@ -9,18 +9,10 @@ pipeline {
 
   stages {
         
-
-    stage('master-branch-stuff'){
-    agent any
-    when{ branch 'prod'}
+    stage('Checkout Source') {
       steps {
-            stage('Checkout Source') {
-              steps {
                 git branch: 'main', url: 'https://github.com/BBRathnayaka/funjenkins.git'
-              }
-            } 
-    
-      }
+            }
     }
 
 
