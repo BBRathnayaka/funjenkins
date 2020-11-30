@@ -34,12 +34,6 @@ pipeline {
           stage ('Stage 3') {
             sh 'echo Stage 3'
           }
-          stage ('Stage 4') {
-            sh 'echo Stage 4'
-          }
-          stage ('Stage 5') {
-            sh 'echo Stage 5'
-          }
         }
       }
     }
