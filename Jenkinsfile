@@ -17,7 +17,7 @@ pipeline {
 
     stage('master-branch-stuff'){
     agent any
-    when{ branch 'main'}
+    when{ branch 'prod'}
       steps {
         echo 'run this stage - ony if the branch = master branch'
       }
