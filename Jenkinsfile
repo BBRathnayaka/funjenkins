@@ -3,7 +3,7 @@ pipeline {
   agent any
 
   stages {  
-    stage ('Main Stage') when{ branch 'prod'} {
+    stage ('Main Stage') {
       steps {
         script {
           if (true) {
