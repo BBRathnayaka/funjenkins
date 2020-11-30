@@ -3,9 +3,8 @@ pipeline {
   agent any
 
   stages {  
-    stage ('Main Stage'){
-      agent any
-      when{ branch 'prod'}
+    stage ('Main Branch'){
+      when{ branch 'main'}
       steps {
         script {
           if (true) {
@@ -21,5 +20,18 @@ pipeline {
         }
       }
     }
+    
+    stage ('Prod Branch'){
+      when{ branch 'prod'}
+      steps {
+        script {
+            stage ('Stage 1') {
+              sh 'echo Stage 1'
+            }
+          }
+        }
+      }
+    }
+
   }
 }
