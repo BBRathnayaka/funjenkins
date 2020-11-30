@@ -2,26 +2,28 @@ pipeline {
   
   agent any
 
+  environment {
+    registry1 = 'localhost:5000/jenkins/funplayjenkins'
+    registry2 = 'localhost:5000/jenkins/funplayjenkins-prod'
+    dockerImage = ''
+  }
+
   stages {  
+    
     stage ('Main Branch'){
       when{ branch 'main'}
       steps {
         script {
-          if (true) {
-            stage ('Stage 1') {
-              sh 'echo Stage 1'
-            }
-          }
-          if (false) {
-            stage ('Stage 2') {
-              sh 'echo Stage 2'
-            }
+          stage('Checkout Source') {
+            steps {
+                      git branch: 'main', url: 'https://github.com/BBRathnayaka/funjenkins.git'
+                  }
           }
         }
       }
     }
     
-    stage ('Prod Branch'){
+    stage ('Production Branch'){
       when{ branch 'prod'}
       steps {
         script {
