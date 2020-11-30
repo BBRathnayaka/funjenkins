@@ -5,6 +5,7 @@ pipeline {
   stages {  
     stage ('Main Stage'){
       agent any
+      when{ branch 'prod'}
       steps {
         script {
           if (true) {
