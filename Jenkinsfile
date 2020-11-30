@@ -17,9 +17,7 @@ pipeline {
               sh 'echo Stage 1'
             }
             stage('Checkout Source') {
-            steps {
               git 'https://github.com/BBRathnayaka/funjenkins.git'
-            }
           }
         }
       }
