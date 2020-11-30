@@ -5,7 +5,7 @@ pipeline {
   stages {  
     stage ('Main Stage')
       agent any
-      when { branch 'main'} {
+      {
       steps {
         script {
           if (true) {
