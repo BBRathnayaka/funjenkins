@@ -7,7 +7,7 @@ pipeline {
     dockerImage = ''
   }
 
-  stages {when{ branch 'main'}
+  stages { when{ branch 'main'}
         
     stage('Checkout Source') {
       steps {
