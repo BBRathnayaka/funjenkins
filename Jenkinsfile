@@ -40,7 +40,6 @@ pipeline {
           }
 
           stage('run-parallel-branches') {
-            steps {
               parallel(
                 a: {
                   echo "This is branch a"
@@ -49,7 +48,6 @@ pipeline {
                   echo "This is branch b"
                 }
               )         
-            }
           }
 
         }
