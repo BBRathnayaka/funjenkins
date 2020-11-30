@@ -8,7 +8,7 @@ pipeline {
     dockerImage = ''
   }
 
-  stages {  
+  stages {    
 
     stage ('Main Branch'){
       when{ branch 'main'}
@@ -78,4 +78,11 @@ pipeline {
     }
 
   }
+  
+  post { 
+    always { 
+      echo 'I will always say Hello again!'
+    }
+  }
+
 }
