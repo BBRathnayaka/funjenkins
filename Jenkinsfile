@@ -35,7 +35,7 @@ pipeline {
 
             stage('Deploy App') {
               sh 'docker rm -f funplayjenkins'
-              sh 'docker run --name funplayjenkins-prod -d -p 8888:80 localhost:5000/jenkins/funplayjenkins'
+              sh 'docker run --name funplayjenkins -d -p 8888:80 localhost:5000/jenkins/funplayjenkins'
               sh 'echo "Devloped here: http://localhost:8888/ "'
           }
 
