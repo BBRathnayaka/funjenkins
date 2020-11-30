@@ -25,13 +25,11 @@ pipeline {
       when{ branch 'prod'}
       steps {
         script {
-            stage ('Stage 1') {
-              sh 'echo Stage 1'
-            }
+          stage ('Stage 1') {
+            sh 'echo Stage 1'
           }
         }
       }
     }
-
   }
 }
