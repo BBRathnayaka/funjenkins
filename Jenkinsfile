@@ -7,12 +7,7 @@ pipeline {
     dockerImage = ''
   }
 
-  if (env.BRANCH_NAME == "main") {                                          
-    sh 'echo "main branch"'
-  } 
-  else {                                   
-    sh 'echo "other branch"'
-  }                                                                       
+                                                                    
 
 
   stages {
@@ -20,7 +15,15 @@ pipeline {
     stage('Checkout Source') {
       steps {
                 git branch: 'main', url: 'https://github.com/BBRathnayaka/funjenkins.git'
-            }
+
+          if (env.BRANCH_NAME == "main") {                                          
+            sh 'echo "main branch"'
+          } 
+          else {                                   
+            sh 'echo "other branch"'
+          }   
+           
+      }
     }
 
     stage('Build image') {
