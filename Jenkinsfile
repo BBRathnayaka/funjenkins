@@ -9,35 +9,88 @@ pipeline {
   }
 
   stages {  
-    
+
     stage ('Main Branch'){
       when{ branch 'main'}
       steps {
         script {
+
           stage('Checkout Source') {
             steps {
                       git branch: 'main', url: 'https://github.com/BBRathnayaka/funjenkins.git'
                   }
           }
+
+          stage('Build image') {
+            steps {
+              script {
+                dockerImage = docker.build registry1
+              }
+            }
+          }
+
+          stage('Push Image') {
+            steps {
+              script {
+                docker.withRegistry( "" ) {
+                  dockerImage.push()
+                }
+              }
+            }
+          }
+
+          stage('Deploy App') {
+            steps {
+              sh 'docker rm -f funplayjenkins'
+              sh 'docker run --name funplayjenkins -d -p 8888:80 localhost:5000/jenkins/funplayjenkins'
+              sh 'echo "Devloped here: http://localhost:8888/ "'
+            }
+          }
+
         }
       }
     }
-    
+
     stage ('Production Branch'){
       when{ branch 'prod'}
       steps {
         script {
-          stage ('Stage 1') {
-            sh 'echo Stage 1'
+
+          stage('Checkout Source') {
+            steps {
+                      git branch: 'prod', url: 'https://github.com/BBRathnayaka/funjenkins.git'
+                  }
           }
-          stage ('Stage 2') {
-            sh 'echo Stage 2'
+
+          stage('Build image') {
+            steps {
+              script {
+                dockerImage = docker.build registry2
+              }
+            }
           }
-          stage ('Stage 3') {
-            sh 'echo Stage 3'
+
+          stage('Push Image') {
+            steps {
+              script {
+                docker.withRegistry( "" ) {
+                  dockerImage.push()
+                }
+              }
+            }
           }
+
+          stage('Deploy App') {
+            steps {
+              sh 'docker rm -f funplayjenkins'
+              sh 'docker run --name funplayjenkins -d -p 8899:80 localhost:5000/jenkins/funplayjenkins'
+              sh 'echo "Devloped here: http://localhost:8899/ "'
+            }
+          }
+
         }
       }
     }
+    
   }
 }
