@@ -9,16 +9,29 @@ pipeline {
   }
 
   stages {  
-    stage ('Main Branch'){
+    stage ('Production Branch'){
       when{ branch 'prod'}
       steps {
         script {
-            stage ('Stage 1') {
-              sh 'echo Stage 1'
-            }
+
             stage('Checkout Source') {
               git branch: 'prod', url: 'https://github.com/BBRathnayaka/funjenkins.git'
+            }
+            
+            stage('Build image') {
+              script {
+                dockerImage = docker.build registry2
+              }
+            }
+
+            stage('Push Image') {
+              script {
+                docker.withRegistry( "" ) {
+                  dockerImage.push()
+              }
+            }
           }
+
         }
       }
     }
