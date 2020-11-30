@@ -12,13 +12,13 @@ pipeline {
 
     stage ('Main Branch'){
         agent any
-      when{ branch 'main'}
+      when{ branch 'prod'}
       steps {
         script {
 
           stage('Checkout Source') {
             steps {
-                      git branch: 'main', url: 'https://github.com/BBRathnayaka/funjenkins.git'
+                      git branch: 'prod', url: 'https://github.com/BBRathnayaka/funjenkins.git'
                   }
           }
 
@@ -52,47 +52,47 @@ pipeline {
       }
     }
 
-    stage ('Production Branch'){
-        agent any
-      when{ branch 'prod'}
-      steps {
-        script {
+    // stage ('Production Branch'){
+    //     agent any
+    //   when{ branch 'prod'}
+    //   steps {
+    //     script {
 
-          stage('Checkout Source') {
-            steps {
-                      git branch: 'prod', url: 'https://github.com/BBRathnayaka/funjenkins.git'
-                  }
-          }
+    //       stage('Checkout Source') {
+    //         steps {
+    //                   git branch: 'prod', url: 'https://github.com/BBRathnayaka/funjenkins.git'
+    //               }
+    //       }
 
-          stage('Build image') {
-            steps {
-              script {
-                dockerImage = docker.build registry2
-              }
-            }
-          }
+    //       stage('Build image') {
+    //         steps {
+    //           script {
+    //             dockerImage = docker.build registry2
+    //           }
+    //         }
+    //       }
 
-          stage('Push Image') {
-            steps {
-              script {
-                docker.withRegistry( "" ) {
-                  dockerImage.push()
-                }
-              }
-            }
-          }
+    //       stage('Push Image') {
+    //         steps {
+    //           script {
+    //             docker.withRegistry( "" ) {
+    //               dockerImage.push()
+    //             }
+    //           }
+    //         }
+    //       }
 
-          stage('Deploy App') {
-            steps {
-              sh 'docker rm -f funplayjenkins'
-              sh 'docker run --name funplayjenkins -d -p 8899:80 localhost:5000/jenkins/funplayjenkins'
-              sh 'echo "Devloped here: http://localhost:8899/ "'
-            }
-          }
+    //       stage('Deploy App') {
+    //         steps {
+    //           sh 'docker rm -f funplayjenkins'
+    //           sh 'docker run --name funplayjenkins -d -p 8899:80 localhost:5000/jenkins/funplayjenkins'
+    //           sh 'echo "Devloped here: http://localhost:8899/ "'
+    //         }
+    //       }
 
-        }
-      }
-    }
+    //     }
+    //   }
+    // }
     
   }
 }
