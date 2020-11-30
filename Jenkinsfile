@@ -3,7 +3,8 @@ pipeline {
   agent any
 
   environment {
-    registry = 'localhost:5000/jenkins/funplayjenkins'
+    registry1 = 'localhost:5000/jenkins/funplayjenkins'
+    registry2 = 'localhost:5000/jenkins/funplayjenkins-prod'
     dockerImage = ''
   }
 
@@ -11,22 +12,43 @@ pipeline {
         
     stage('main-branch-stuff'){
       agent any
-      when{ branch 'prod'}
+      when{ branch 'main'}
         steps {
           echo 'run this stage - ony if the branch = main branch'
           echo 'Checkout Source---------------------------------'
           git branch: 'main', url: 'https://github.com/BBRathnayaka/funjenkins.git'
-          echo 'Build Image---------------------------------'
+          echo 'Build Image Main---------------------------------'
           script {
-            dockerImage = docker.build registry
+            dockerImage = docker.build registry1
             docker.withRegistry( "" ) {
               dockerImage.push()
             }
           }
-          echo 'Deploy App---------------------------------'
+          echo 'Deploy App Main---------------------------------'
           sh 'docker rm -f funplayjenkins'
           sh 'docker run --name funplayjenkins -d -p 8888:80 localhost:5000/jenkins/funplayjenkins'
           sh 'echo "Devloped here: http://localhost:8888/ "'  
+        }
+    }
+
+    stage('prod-branch-stuff'){
+      agent any
+      when{ branch 'prod'}
+        steps {
+          echo 'run this stage - ony if the branch = main branch'
+          echo 'Checkout Source---------------------------------'
+          git branch: 'prod', url: 'https://github.com/BBRathnayaka/funjenkins.git'
+          echo 'Build Image Production---------------------------------'
+          script {
+            dockerImage = docker.build registry2
+            docker.withRegistry( "" ) {
+              dockerImage.push()
+            }
+          }
+          echo 'Deploy App Production---------------------------------'
+          sh 'docker rm -f funplayjenkins-prod'
+          sh 'docker run --name funplayjenkins-prod -d -p 8888:80 localhost:5000/jenkins/funplayjenkins-prod'
+          sh 'echo "Devloped here: http://localhost:8888/ "'
         }
     }
 
