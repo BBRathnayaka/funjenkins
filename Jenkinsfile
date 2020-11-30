@@ -8,7 +8,7 @@ pipeline {
     dockerImage = ''
   }
 
-  stages {
+  stages {  
     stage ('Main Stage') when{ branch 'main'} {
       steps {
         script {
@@ -25,6 +25,13 @@ pipeline {
         }
       }
     }
+
+      stage('Build image') {
+        steps {
+          echo 'HEllo'
+
+        }
+      }
   }
 
 
